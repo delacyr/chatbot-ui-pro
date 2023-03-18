@@ -3,6 +3,8 @@ import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { Conversation, Message, OpenAIModel } from "@/types";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import {getSession} from "next-auth/react";
+import {GetServerSideProps} from "next";
 
 export default function Home() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -229,4 +231,24 @@ export default function Home() {
       )}
     </>
   );
+}
+
+// verfiy that the user is logged in server side
+export const getServerSideProps: GetServerSideProps = async (context) =>{
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+        redirect: {
+            destination: "/api/auth/signin",
+            permanent: false
+        }
+        };
+    }
+
+    return {
+        props: {
+        session
+        }
+    };
 }

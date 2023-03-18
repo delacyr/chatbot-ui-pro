@@ -1,6 +1,7 @@
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import {IconLogin, IconMoon, IconSun} from "@tabler/icons-react";
 import { FC } from "react";
 import { SidebarButton } from "./SidebarButton";
+import {signOut} from "next-auth/react";
 
 interface Props {
   lightMode: "light" | "dark";
@@ -15,6 +16,8 @@ export const SidebarSettings: FC<Props> = ({ lightMode, onToggleLightMode }) => 
         icon={lightMode === "light" ? <IconMoon /> : <IconSun />}
         onClick={() => onToggleLightMode(lightMode === "light" ? "dark" : "light")}
       />
+        <SidebarButton text={"Logout"} icon={<IconLogin />} onClick={() => signOut()}
+        />
     </div>
   );
 };
